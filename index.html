@@ -6,134 +6,160 @@
 <title>GED Score Calculator</title>
 
 <style>
-/* 📱 ค่าเดิมของคุณสำหรับมือถือ (Mobile First) */
-body{
-margin:0;
-font-family:Arial;
-background:#fff9fc;
-padding-bottom:90px;
+/* จัดการภาพรวมให้ดูดีเหมือนในไอแพด */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff9fc;
+    padding-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.container{
-max-width:420px; /* ค่าเดิมที่คุณชอบ */
-margin:auto;
-padding:40px 20px;
+.container {
+    /* ใช้ความกว้างเป็น % เพื่อให้มือถือและไอแพดดูโปร่งเหมือนกัน */
+    width: 90%;
+    max-width: 550px; 
+    margin: 30px auto;
+    padding: 20px;
+    box-sizing: border-box; /* ⭐ กันขอบขาวตกจอ */
 }
 
-input{
-width:100%;
-padding:12px;
-margin:10px 0;
-background:#fffefa;
-border:1px solid #ffe6f2;
-border-radius:8px;
-font-size:16px;
-box-sizing:border-box;
+h2 {
+    color: #eea9fc;
+    /* ⭐ ตัวหนังสือจะใหญ่ขึ้นตามหน้าจออุปกรณ์ (ยืดหยุ่นอัตโนมัติ) */
+    font-size: clamp(26px, 7vw, 40px);
+    text-align: center;
+    margin-bottom: 25px;
 }
 
-button{
-display:block;
-margin:15px auto;
-padding:14px 40px;
-background:#f2ffd9;
-color:#a9e400;
-border:none;
-border-radius:12px;
-font-size:22px;
-font-weight:bold;
-cursor:pointer;
--webkit-tap-highlight-color: transparent;
-box-sizing:border-box;
+label {
+    display: block;
+    color: #ff9ccc;
+    font-size: clamp(14px, 3.5vw, 18px);
+    margin-top: 15px;
 }
 
-.contact-bar{
-position:fixed;
-bottom:15px;
-left:50%;
-transform:translateX(-50%);
-width:auto; 
-z-index:999;
+/* ⭐ แก้ไข Input ไม่ให้ตกขอบ iPhone */
+input {
+    width: 100%;
+    padding: clamp(12px, 3vw, 18px);
+    margin: 10px 0;
+    background: #fffefa;
+    border: 1px solid #ffe6f2;
+    border-radius: 12px;
+    font-size: 16px;
+    box-sizing: border-box; /* ⭐ สำคัญมาก: กันตกขอบ */
+    transition: 0.3s;
 }
 
-.contact-bar a{
-display:inline-block;
-white-space:nowrap; /* ⭐ ล็อคบรรทัดเดียว */
-padding:14px 40px;
-background:#fffea9;
-color:#3c3c3c;
-font-size:22px;
-font-weight:bold;
-border-radius:12px;
-text-decoration:none;
+input:focus {
+    outline: none;
+    background: #fff0f7;
+    border-color: #eea9fc;
 }
 
-/* 💻 ส่วนที่เพิ่ม: สำหรับหน้าจอใหญ่ (ไอแพด/คอมพิวเตอร์) */
-@media (min-width: 600px) {
-    .container {
-        max-width: 600px; /* ขยายกล่องให้กว้างขึ้นในไอแพด */
-        padding: 60px 40px;
-    }
-    
-    h2 {
-        font-size: 42px !important; /* หัวข้อใหญ่ขึ้นตามจอ */
-    }
-
-    input {
-        padding: 18px; /* ช่องกรอกใหญ่ขึ้น */
-        font-size: 18px;
-    }
-
-    button {
-        padding: 20px 60px;
-        font-size: 26px; /* ปุ่มใหญ่ขึ้น */
-    }
-
-    .contact-bar a {
-        font-size: 28px; /* ปุ่มติดต่อใหญ่ขึ้น */
-        padding: 18px 60px;
-        border-radius: 50px; /* ทำทรงมนสวยๆ ในจอใหญ่ */
-    }
+button {
+    display: block;
+    width: 100%;
+    margin: 20px auto;
+    padding: clamp(14px, 3.5vw, 20px);
+    background: #f2ffd9;
+    color: #a9e400;
+    border: none;
+    border-radius: 15px;
+    font-size: clamp(20px, 5vw, 26px);
+    font-weight: bold;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* ส่วนของตารางและอื่นๆ (ค่าเดิมของคุณ) */
-table{ width:100%; border-collapse:collapse; margin-top:15px; background:#ffffff; border-radius:10px; overflow:hidden; }
-th,td{ padding:10px; text-align:center; border-bottom:1px solid #ffb6da; }
-th{ background:#fff0f7; color:#b388ff; }
-.total-row td{ font-weight:bold; color:#65d0ff; border-bottom:none; }
-.result{ margin-top:30px; }
+button:active {
+    background: #eaffb8;
+    transform: scale(0.97);
+}
+
+/* ตาราง */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(255, 182, 218, 0.1);
+}
+
+th, td {
+    padding: 12px 8px;
+    text-align: center;
+    border-bottom: 1px solid #ffb6da;
+    font-size: clamp(14px, 3vw, 17px);
+}
+
+th {
+    background: #fff0f7;
+    color: #b388ff;
+}
+
+.total-row td {
+    font-weight: bold;
+    color: #65d0ff;
+}
+
+/* ===== CONTACT BUTTON (ดีไซน์เดียวกับไอแพดแต่หดได้) ===== */
+.contact-bar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+}
+
+.contact-bar a {
+    display: inline-block;
+    white-space: nowrap; /* ⭐ ล็อค CONTACT ME บรรทัดเดียว */
+    padding: clamp(12px, 3vw, 18px) clamp(30px, 8vw, 55px);
+    background: #fffea9;
+    color: #3c3c3c;
+    font-size: clamp(18px, 4.5vw, 24px);
+    font-weight: bold;
+    border-radius: 50px; /* ทรงมนสวยแบบไอแพด */
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
 </style>
 </head>
 
 <body>
+
 <div class="container">
-<h2 style="color:#eea9fc;font-size:34px;text-align:center;">
-｡𖦹°⋆ GED score to GPA & GPAX calculator ₊˚𝜗𝜚˚⋆
-</h2>
+    <h2>｡𖦹°⋆ GED score to GPA & GPAX calculator ₊˚𝜗𝜚˚⋆</h2>
 
-<label style="color:#ff9ccc;">Mathematical Reasoning:</label>
-<input type="number" id="math" placeholder="0-200">
+    <label>Mathematical Reasoning:</label>
+    <input type="number" id="math" placeholder="0-200">
 
-<label style="color:#ff9ccc;">Reasoning Through Language Arts (RLA):</label>
-<input type="number" id="rla" placeholder="0-200">
+    <label>Reasoning Through Language Arts (RLA):</label>
+    <input type="number" id="rla" placeholder="0-200">
 
-<label style="color:#ff9ccc;">Social Studies:</label>
-<input type="number" id="soc" placeholder="0-200">
+    <label>Social Studies:</label>
+    <input type="number" id="soc" placeholder="0-200">
 
-<label style="color:#ff9ccc;">Science:</label>
-<input type="number" id="sci" placeholder="0-200">
+    <label>Science:</label>
+    <input type="number" id="sci" placeholder="0-200">
 
-<button onclick="calculateGPA()">
-｡⋆𐙚⋆ calculate ₊⊹♡ᵎᵎ
-</button>
-<div class="result" id="res"></div>
+    <button onclick="calculateGPA()">｡⋆𐙚⋆ calculate ₊⊹♡ᵎᵎ</button>
+    <div class="result" id="res"></div>
 </div>
 
 <div class="contact-bar">
-<a href="https://lin.ee/ELHcIH2" target="_blank">CONTACT ME</a>
+    <a href="https://lin.ee/ELHcIH2" target="_blank">CONTACT ME</a>
 </div>
 
 <script>
-// JavaScript เดิมของคุณทั้งหมด (ไม่ได้แก้คำ)
+// JavaScript เดิมของคุณ (ไม่แก้ไขคำ)
 let savedScores=[];
 let currentDecimal=3;
 function scoreToGPA(score){let gpa=((score-50)/150)*4; return Math.max(0,Math.min(4,gpa));}
