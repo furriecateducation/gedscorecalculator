@@ -24,12 +24,13 @@ body {
     margin: 40px auto;
     padding: 30px 20px;
     border-radius: 24px;
-    box-shadow: 0 15px 35px rgba(255, 150, 200, 0.3);
+    box-shadow: 0 15px 35px rgba(255, 182, 218, 0.3);
     box-sizing: border-box;
 }
 
+/* ⭐ เปลี่ยนหัวข้อเป็นสีชมพู (เดิมเป็นม่วง) */
 h2 {
-    color: #eea9fc;
+    color: #ff9ccc; 
     font-size: clamp(22px, 6vw, 32px);
     text-align: center;
     margin-bottom: 25px;
@@ -56,7 +57,7 @@ input {
     transition: 0.3s;
 }
 
-/* ⭐ ตอนกรอกเปลี่ยนเป็นสีชมพู และขอบสีชมพู (ไม่ใช่ม่วง) */
+/* ⭐ ขอบตอนกรอกเปลี่ยนเป็นสีชมพู (ไม่ใช่ม่วง) */
 input:focus {
     background-color: #fff0f7 !important;
     border-color: #ffb6da !important; 
@@ -90,22 +91,22 @@ th, td {
     text-align: center;
     border-bottom: 1px solid #ffb6da;
     font-size: 14px;
-    color: #ff9ccc;
+    color: #ff9ccc; /* ตัวหนังสือชมพู */
 }
 
-/* หัวตาราง (Subject) */
+/* หัวตารางสีชมพู */
 th {
     background: #fff0f7;
     color: #ff9ccc;
     font-weight: bold;
 }
 
-/* ⭐ แถว TOTAL พื้นหลังสีชมพูแบบเดียวกับหัวตาราง และเอาเส้นขอบล่างออก */
+/* ⭐ แถว TOTAL พื้นหลังชมพูแบบหัวตาราง และลบเส้นล่างสุด */
 .total-row td {
     font-weight: bold;
     background-color: #fff0f7 !important; 
     color: #ff9ccc !important;
-    border-bottom: none !important; /* เอาเส้นสีชมพูล่างสุดออก */
+    border-bottom: none !important; 
 }
 
 .result {
@@ -175,19 +176,4 @@ function toggleDecimal(){
 }
 
 function renderTable(){
-    const subjects=[{name:"Math"},{name:"RLA"},{name:"Social Studies"},{name:"Science"}];
-    let totalScore=0; 
-    let totalGPA=0;
-    let html=`<table><tr><th>Subject</th><th>Score</th><th>GPA</th></tr>`;
-    
-    subjects.forEach((sub,i)=>{
-        const score=savedScores[i]; 
-        const gpa=scoreToGPA(score);
-        totalScore+=score; 
-        totalGPA+=gpa;
-        html+=`<tr><td>${sub.name}</td><td>${score}</td><td>${gpa.toFixed(currentDecimal)}</td></tr>`;
-    });
-    
-    const gpax=totalGPA/4;
-    html+=`<tr class="total-row"><td>TOTAL</td><td>${totalScore}</td><td>GPAX ${gpax.toFixed(currentDecimal)}</td></tr></table>
-    <button onclick="toggleDecimal()" style="display:block; width:
+    const subjects=[{name:"Math"},{name:"RLA"},
