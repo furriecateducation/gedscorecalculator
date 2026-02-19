@@ -11,26 +11,23 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #fff9fc; /* สีชมพูพื้นหลัง */
+    background-color: #fff9fc;
     display: flex;
     justify-content: center;
     min-height: 100vh;
     padding-bottom: 120px;
 }
 
-/* ⭐ ตัวการสำคัญ: นี่คือกล่องสี่เหลี่ยมสีขาว */
+/* กล่องสี่เหลี่ยมสีขาว */
 .container {
-    background-color: #ffffff; /* สีขาวชัดเจน */
-    width: 85%; /* หดขนาดลงเพื่อให้เห็นพื้นหลังสีชมพูด้านข้าง */
+    background-color: #ffffff;
+    width: 85%;
     max-width: 450px; 
-    margin: 40px auto; /* เว้นระยะบน-ล่างให้เห็นพื้นหลังชมพู */
+    margin: 40px auto;
     padding: 30px 20px;
-    border-radius: 24px; /* ขอบโค้งมนแบบไอแพด */
-    
-    /* ⭐ ใส่เงาให้เข้มขึ้นเพื่อให้เห็นขอบกล่องขาวชัดๆ ในมือถือ */
-    box-shadow: 0 15px 35px rgba(255, 150, 200, 0.3); 
-    
-    box-sizing: border-box; /* กันของภายในตกขอบ */
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(255, 150, 200, 0.3);
+    box-sizing: border-box;
 }
 
 h2 {
@@ -48,7 +45,6 @@ label {
     margin-top: 15px;
 }
 
-/* ⭐ ปรับช่องกรอกให้อยู่ในกล่องขาว ไม่ล้น */
 input {
     width: 100%;
     padding: 12px;
@@ -57,7 +53,7 @@ input {
     border: 1px solid #ffe6f2;
     border-radius: 10px;
     font-size: 16px;
-    box-sizing: border-box; /* สำคัญ: กันตกขอบ iPhone */
+    box-sizing: border-box;
 }
 
 button {
@@ -72,32 +68,44 @@ button {
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* ตารางผลลัพธ์ภายในกล่องขาว */
+/* ตารางผลลัพธ์ */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 th, td {
     padding: 10px 5px;
     text-align: center;
-    border-bottom: 1px solid #ffb6da;
+    border-bottom: 1px solid #ffb6da; /* เส้นสีชมพูระหว่างแถว */
     font-size: 14px;
 }
 
 th {
+    background: #fff0f7; /* สีชมพูอ่อนที่หัวตาราง */
     color: #b388ff;
 }
 
+/* แก้ไขแถว TOTAL ให้เป็นสีชมพูตามที่คุณต้องการ */
 .total-row td {
     font-weight: bold;
-    color: #65d0ff;
+    background: #fff0f7; /* เปลี่ยนจากสีฟ้าเป็นสีชมพูอ่อนเหมือนหัวตาราง */
+    color: #b388ff; /* ใช้สีเดียวกับหัวตารางเพื่อให้โทนเดียวกัน */
+    border-bottom: none; /* ⭐ เอาเส้นสีชมพูบรรทัดล่างสุดออก */
 }
 
-/* ⭐ CONTACT ME ปุ่มมนรี บรรทัดเดียว */
+.result {
+    margin-top: 30px;
+}
+
+/* CONTACT ME ปุ่มมนรี */
 .contact-bar {
     position: fixed;
     bottom: 30px;
@@ -108,7 +116,7 @@ th {
 
 .contact-bar a {
     display: inline-block;
-    white-space: nowrap; /* ไม่แยกบรรทัด */
+    white-space: nowrap;
     padding: 15px 45px;
     background: #fffea9;
     color: #3c3c3c;
@@ -148,27 +156,43 @@ th {
 </div>
 
 <script>
-// JavaScript เดิมเป๊ะๆ ไม่แก้คำค่ะ
 let savedScores=[];
 let currentDecimal=3;
-function scoreToGPA(score){let gpa=((score-50)/150)*4; return Math.max(0,Math.min(4,gpa));}
-function toggleDecimal(){currentDecimal = currentDecimal===3 ? 2 : 3; renderTable();}
+
+function scoreToGPA(score){
+    let gpa=((score-50)/150)*4; 
+    return Math.max(0,Math.min(4,gpa));
+}
+
+function toggleDecimal(){
+    currentDecimal = currentDecimal===3 ? 2 : 3; 
+    renderTable();
+}
+
 function renderTable(){
     const subjects=[{name:"Math"},{name:"RLA"},{name:"Social Studies"},{name:"Science"}];
-    let totalScore=0; let totalGPA=0;
+    let totalScore=0; 
+    let totalGPA=0;
     let html=`<table><tr><th>Subject</th><th>Score</th><th>GPA</th></tr>`;
+    
     subjects.forEach((sub,i)=>{
-        const score=savedScores[i]; const gpa=scoreToGPA(score);
-        totalScore+=score; totalGPA+=gpa;
+        const score=savedScores[i]; 
+        const gpa=scoreToGPA(score);
+        totalScore+=score; 
+        totalGPA+=gpa;
         html+=`<tr><td>${sub.name}</td><td>${score}</td><td>${gpa.toFixed(currentDecimal)}</td></tr>`;
     });
+    
     const gpax=totalGPA/4;
     html+=`<tr class="total-row"><td>TOTAL</td><td>${totalScore}</td><td>GPAX ${gpax.toFixed(currentDecimal)}</td></tr></table>
     <button onclick="toggleDecimal()">${currentDecimal===3 ? "Convert to 2 Decimal Places" : "Convert to 3 Decimal Places"}</button>`;
+    
     document.getElementById("res").innerHTML=html;
 }
+
 function calculateGPA(){
-    const ids=["math","rla","soc","sci"]; savedScores=[];
+    const ids=["math","rla","soc","sci"]; 
+    savedScores=[];
     for(let id of ids){
         const score=parseFloat(document.getElementById(id).value);
         if(isNaN(score)||score<0||score>200){
@@ -177,7 +201,8 @@ function calculateGPA(){
         }
         savedScores.push(score);
     }
-    currentDecimal=3; renderTable();
+    currentDecimal=3; 
+    renderTable();
 }
 </script>
 
