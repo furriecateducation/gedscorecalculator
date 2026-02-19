@@ -6,7 +6,7 @@
 <title>GED Score Calculator</title>
 
 <style>
-/* พื้นหลังหลักของหน้าจอเป็นสีชมพู */
+/* พื้นหลังหลักของหน้าจอ */
 body {
     margin: 0;
     padding: 0;
@@ -18,7 +18,7 @@ body {
     padding-bottom: 120px;
 }
 
-/* กล่องสี่เหลี่ยมสีขาว */
+/* กล่องสีขาว */
 .container {
     background-color: #ffffff;
     width: 85%;
@@ -45,6 +45,7 @@ label {
     margin-top: 15px;
 }
 
+/* ช่องกรอกคะแนนแบบปกติ */
 input {
     width: 100%;
     padding: 12px;
@@ -54,6 +55,14 @@ input {
     border-radius: 10px;
     font-size: 16px;
     box-sizing: border-box;
+    transition: 0.3s; /* ให้สีค่อยๆ เปลี่ยนแบบนุ่มนวล */
+}
+
+/* ⭐ ส่วนที่เพิ่มกลับมา: สีชมพูตอนกำลังพิมพ์ (Focus) */
+input:focus {
+    outline: none;
+    background: #fff0f7; /* พื้นหลังสีชมพูตอนพิมพ์ */
+    border-color: #eea9fc; /* ขอบสีชมพูเข้มตอนพิมพ์ */
 }
 
 button {
@@ -84,21 +93,21 @@ table {
 th, td {
     padding: 10px 5px;
     text-align: center;
-    border-bottom: 1px solid #ffb6da; /* เส้นสีชมพูระหว่างแถว */
+    border-bottom: 1px solid #ffb6da;
     font-size: 14px;
 }
 
 th {
-    background: #fff0f7; /* สีชมพูอ่อนที่หัวตาราง */
+    background: #fff0f7;
     color: #b388ff;
 }
 
-/* แก้ไขแถว TOTAL ให้เป็นสีชมพูตามที่คุณต้องการ */
+/* แถว TOTAL สีชมพูและไม่มีเส้นล่าง */
 .total-row td {
     font-weight: bold;
-    background: #fff0f7; /* เปลี่ยนจากสีฟ้าเป็นสีชมพูอ่อนเหมือนหัวตาราง */
-    color: #b388ff; /* ใช้สีเดียวกับหัวตารางเพื่อให้โทนเดียวกัน */
-    border-bottom: none; /* ⭐ เอาเส้นสีชมพูบรรทัดล่างสุดออก */
+    background: #fff0f7;
+    color: #b388ff;
+    border-bottom: none;
 }
 
 .result {
