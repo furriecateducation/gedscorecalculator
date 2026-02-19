@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>GED Score Calculator</title>
 
 <style>
@@ -10,7 +13,7 @@ body{
 margin:0;
 font-family:Arial;
 background:#fff9fc;
-padding-bottom:95px;
+padding-bottom:90px;
 }
 
 .container{
@@ -34,7 +37,7 @@ outline:none;
 background:#fff0f7;
 }
 
-/* ✅ ปุ่ม calculate (ของเดิมคุณ) */
+/* ⭐ ปุ่มหลัก */
 button{
 display:block;
 margin:15px auto;
@@ -54,6 +57,7 @@ background:#eaffb8;
 transform:scale(0.96);
 }
 
+/* ตาราง */
 table{
 width:100%;
 border-collapse:collapse;
@@ -84,26 +88,21 @@ border-bottom:none;
 margin-top:30px;
 }
 
-/* ========================= */
-/* ✅ CONTACT BAR (แก้เฉพาะสี + ขนาด) */
-/* ========================= */
-
+/* ⭐ CONTACT BUTTON */
 .contact-bar{
 position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:transparent;
-padding:14px;
-text-align:center;
+bottom:15px;
+left:50%;
+transform:translateX(-50%);
+width:auto;
 z-index:999;
 }
 
 .contact-bar a{
-display:inline-block;   /* ⭐ ไม่เต็มจอ */
+display:inline-block;
 padding:14px 40px;
-background:#fffea9;     /* สีใหม่ */
-color:#3c3c3c;          /* สีตัวหนังสือ */
+background:#fffea9;
+color:#3c3c3c;
 font-size:22px;
 font-weight:bold;
 border-radius:12px;
@@ -145,7 +144,7 @@ transform:scale(0.96);
 
 </div>
 
-<!-- ✅ CONTACT ME -->
+<!-- CONTACT -->
 <div class="contact-bar">
 <a href="https://lin.ee/ELHcIH2" target="_blank">
 CONTACT ME
@@ -162,7 +161,6 @@ let gpa=((score-50)/150)*4;
 return Math.max(0,Math.min(4,gpa));
 }
 
-/* ✅ convert ใช้ style ปุ่มเดิม */
 function toggleDecimal(){
 currentDecimal = currentDecimal===3 ? 2 : 3;
 renderTable();
@@ -216,7 +214,6 @@ html+=`
 </tr>
 </table>
 
-<!-- ⭐ ปุ่ม Convert สีเดียว calculate -->
 <button onclick="toggleDecimal()">
 ${currentDecimal===3
 ? "Convert to 2 Decimal Places"
