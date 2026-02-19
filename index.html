@@ -1,102 +1,80 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>GED Score Calculator</title>
 
 <style>
 
+html, body{
+    margin:0;
+    height:100%;
+    font-family: Arial, sans-serif;
+    background:#fffef3;
+}
+
 body{
-margin:0;
-font-family:Arial;
-background:#fff9fc;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-/* กล่อง */
+/* CARD */
+
 .container{
-max-width:420px;
-margin:auto;
-padding:40px 20px;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    width:90%;
+    max-width:420px;
+    text-align:center;
 }
 
-/* input */
+/* INPUT */
+
 input{
-width:100%;
-padding:12px;
-margin:10px 0;
-background:#fffefa;
-border:1px solid #ffe6f2;
-border-radius:8px;
-font-size:16px;
+    width:90%;
+    padding:10px;
+    margin:8px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:16px;
 }
 
-input:focus{
-outline:none;
-background:#fff0f7;
-}
+/* BUTTON BASE */
 
-/* ⭐ ปุ่ม calculate */
 button{
-display:block;
-margin:15px auto;
-padding:14px 40px;
-background:#f2ffd9;
-color:#a9e400;
-border:none;
-border-radius:12px;
-font-size:22px;
-font-weight:bold;
-cursor:pointer;
+    border:none;
+    padding:12px 20px;
+    margin:8px 5px;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
 }
 
-/* ⭐ CONTACT ME (เหมือน calculate แต่คนละสี) */
+/* CALCULATE + CONVERT SAME COLOR */
+
+.main-btn{
+    background:#ffd95e;
+    color:#3c3c3c;
+}
+
+/* CONTACT ME */
+
 .contact-btn{
-display:block;
-margin:40px auto 0;
-padding:14px 40px;
-background:#fffea9;
-color:#3c3c3c;
-border-radius:12px;
-font-size:22px;
-font-weight:bold;
-text-align:center;
-text-decoration:none;
-width:fit-content;
+    background:#fffea9;
+    color:#3c3c3c;
 }
 
-.contact-btn:active{
-transform:scale(0.96);
-}
+/* RESULT */
 
-/* ตาราง */
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:15px;
-background:#ffffff;
-border-radius:10px;
-overflow:hidden;
-}
-
-th,td{
-padding:10px;
-text-align:center;
-border-bottom:1px solid #ffb6da;
-}
-
-th{
-background:#fff0f7;
-color:#b388ff;
-}
-
-.total-row td{
-font-weight:bold;
-color:#65d0ff;
-border-bottom:none;
-}
-
-.result{
-margin-top:30px;
+#result{
+    margin-top:15px;
+    font-size:18px;
+    font-weight:bold;
 }
 
 </style>
@@ -106,123 +84,70 @@ margin-top:30px;
 
 <div class="container">
 
-<h2 style="color:#eea9fc;font-size:34px;text-align:center;">
-｡𖦹°⋆ GED score to GPA & GPAX calculator ₊˚𝜗𝜚˚⋆
-</h2>
+<h2>GED Score Calculator</h2>
 
-<label style="color:#ff9ccc;">Mathematical Reasoning:</label>
-<input type="number" id="math">
+<input type="number" id="rla" placeholder="RLA">
+<input type="number" id="math" placeholder="Math">
+<input type="number" id="science" placeholder="Science">
+<input type="number" id="social" placeholder="Social Studies">
 
-<label style="color:#ff9ccc;">RLA:</label>
-<input type="number" id="rla">
+<br>
 
-<label style="color:#ff9ccc;">Social Studies:</label>
-<input type="number" id="soc">
+<button class="main-btn" onclick="calculate()">Calculate</button>
 
-<label style="color:#ff9ccc;">Science:</label>
-<input type="number" id="sci">
-
-<button onclick="calculateGPA()">
-｡⋆𐙚⋆ calculate ₊⊹♡ᵎᵎ
+<button class="main-btn" onclick="convertDecimal(2)">
+Convert to 2 decimal places
 </button>
 
-<div class="result" id="res"></div>
+<button class="main-btn" onclick="convertDecimal(3)">
+Convert to 3 decimal places
+</button>
 
-<!-- ⭐ CONTACT ME (ไม่เต็มจอแล้ว) -->
-<a href="https://lin.ee/ELHcIH2" target="_blank" class="contact-btn">
-CONTACT ME
-</a>
+<br>
+
+<button class="contact-btn">
+Contact Me
+</button>
+
+<div id="result"></div>
 
 </div>
 
 <script>
 
-let savedScores=[];
-let currentDecimal=3;
+let lastScore = 0;
 
-function scoreToGPA(score){
-let gpa=((score-50)/150)*4;
-return Math.max(0,Math.min(4,gpa));
-}
+function calculate(){
 
-function toggleDecimal(){
-currentDecimal=currentDecimal===3?2:3;
-renderTable();
-}
+let rla = Number(document.getElementById("rla").value);
+let math = Number(document.getElementById("math").value);
+let science = Number(document.getElementById("science").value);
+let social = Number(document.getElementById("social").value);
 
-function renderTable(){
-
-const subjects=["Math","RLA","Social Studies","Science"];
-
-let totalScore=0;
-let totalGPA=0;
-
-let html=`
-<table>
-<tr>
-<th>Subject</th>
-<th>Score</th>
-<th>GPA</th>
-</tr>
-`;
-
-subjects.forEach((name,i)=>{
-
-const score=savedScores[i];
-const gpa=scoreToGPA(score);
-
-totalScore+=score;
-totalGPA+=gpa;
-
-html+=`
-<tr>
-<td>${name}</td>
-<td>${score}</td>
-<td>${gpa.toFixed(currentDecimal)}</td>
-</tr>
-`;
-});
-
-const gpax=totalGPA/4;
-
-html+=`
-<tr class="total-row">
-<td>TOTAL</td>
-<td>${totalScore}</td>
-<td>GPAX ${gpax.toFixed(currentDecimal)}</td>
-</tr>
-</table>
-
-<button onclick="toggleDecimal()">
-${currentDecimal===3
-? "Convert to 2 Decimal Places"
-: "Convert to 3 Decimal Places"}
-</button>
-`;
-
-document.getElementById("res").innerHTML=html;
-}
-
-function calculateGPA(){
-
-const ids=["math","rla","soc","sci"];
-savedScores=[];
-
-for(let id of ids){
-
-const score=parseFloat(document.getElementById(id).value);
-
-if(isNaN(score)||score<0||score>200){
-document.getElementById("res").innerHTML=
-"<span style='color:#ff7ab6;font-weight:bold;'>Please enter valid scores for all four subjects</span>";
+if(!rla || !math || !science || !social){
+document.getElementById("result").innerText =
+"Please fill all scores";
 return;
 }
 
-savedScores.push(score);
+let average = (rla + math + science + social) / 4;
+
+lastScore = average;
+
+document.getElementById("result").innerText =
+"Average Score: " + average;
 }
 
-currentDecimal=3;
-renderTable();
+function convertDecimal(num){
+
+if(lastScore === 0){
+document.getElementById("result").innerText =
+"Please calculate first";
+return;
+}
+
+document.getElementById("result").innerText =
+"Average Score: " + lastScore.toFixed(num);
 }
 
 </script>
