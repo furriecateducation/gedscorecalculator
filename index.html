@@ -2,7 +2,6 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GED Score Calculator</title>
 
 <style>
@@ -11,15 +10,16 @@ body{
 margin:0;
 font-family:Arial;
 background:#fff9fc;
-padding-bottom:95px;
 }
 
+/* กล่อง */
 .container{
 max-width:420px;
 margin:auto;
 padding:40px 20px;
 }
 
+/* input */
 input{
 width:100%;
 padding:12px;
@@ -35,7 +35,7 @@ outline:none;
 background:#fff0f7;
 }
 
-/* ⭐ ปุ่มหลัก (calculate + convert ใช้อันเดียวกัน) */
+/* ⭐ ปุ่ม calculate */
 button{
 display:block;
 margin:15px auto;
@@ -47,14 +47,28 @@ border-radius:12px;
 font-size:22px;
 font-weight:bold;
 cursor:pointer;
--webkit-tap-highlight-color: transparent;
 }
 
-button:active{
-background:#eaffb8;
+/* ⭐ CONTACT ME (เหมือน calculate แต่คนละสี) */
+.contact-btn{
+display:block;
+margin:40px auto 0;
+padding:14px 40px;
+background:#fffea9;
+color:#3c3c3c;
+border-radius:12px;
+font-size:22px;
+font-weight:bold;
+text-align:center;
+text-decoration:none;
+width:fit-content;
+}
+
+.contact-btn:active{
 transform:scale(0.96);
 }
 
+/* ตาราง */
 table{
 width:100%;
 border-collapse:collapse;
@@ -85,29 +99,6 @@ border-bottom:none;
 margin-top:30px;
 }
 
-/* ⭐ CONTACT BAR */
-.contact-bar{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:transparent;
-padding:14px;
-z-index:999;
-}
-
-.contact-bar a{
-display:block;
-text-align:center;
-padding:16px;
-background:#fffea9;
-color:#3c3c3c;
-font-size:20px;
-font-weight:bold;
-border-radius:14px;
-text-decoration:none;
-}
-
 </style>
 </head>
 
@@ -120,16 +111,16 @@ text-decoration:none;
 </h2>
 
 <label style="color:#ff9ccc;">Mathematical Reasoning:</label>
-<input type="number" id="math" placeholder="0-200">
+<input type="number" id="math">
 
-<label style="color:#ff9ccc;">Reasoning Through Language Arts (RLA):</label>
-<input type="number" id="rla" placeholder="0-200">
+<label style="color:#ff9ccc;">RLA:</label>
+<input type="number" id="rla">
 
 <label style="color:#ff9ccc;">Social Studies:</label>
-<input type="number" id="soc" placeholder="0-200">
+<input type="number" id="soc">
 
 <label style="color:#ff9ccc;">Science:</label>
-<input type="number" id="sci" placeholder="0-200">
+<input type="number" id="sci">
 
 <button onclick="calculateGPA()">
 ｡⋆𐙚⋆ calculate ₊⊹♡ᵎᵎ
@@ -137,13 +128,11 @@ text-decoration:none;
 
 <div class="result" id="res"></div>
 
-</div>
-
-<!-- CONTACT ME -->
-<div class="contact-bar">
-<a href="https://lin.ee/ELHcIH2" target="_blank">
+<!-- ⭐ CONTACT ME (ไม่เต็มจอแล้ว) -->
+<a href="https://lin.ee/ELHcIH2" target="_blank" class="contact-btn">
 CONTACT ME
 </a>
+
 </div>
 
 <script>
@@ -157,18 +146,13 @@ return Math.max(0,Math.min(4,gpa));
 }
 
 function toggleDecimal(){
-currentDecimal = currentDecimal===3 ? 2 : 3;
+currentDecimal=currentDecimal===3?2:3;
 renderTable();
 }
 
 function renderTable(){
 
-const subjects=[
-{name:"Math"},
-{name:"RLA"},
-{name:"Social Studies"},
-{name:"Science"}
-];
+const subjects=["Math","RLA","Social Studies","Science"];
 
 let totalScore=0;
 let totalGPA=0;
@@ -182,7 +166,7 @@ let html=`
 </tr>
 `;
 
-subjects.forEach((sub,i)=>{
+subjects.forEach((name,i)=>{
 
 const score=savedScores[i];
 const gpa=scoreToGPA(score);
@@ -192,7 +176,7 @@ totalGPA+=gpa;
 
 html+=`
 <tr>
-<td>${sub.name}</td>
+<td>${name}</td>
 <td>${score}</td>
 <td>${gpa.toFixed(currentDecimal)}</td>
 </tr>
