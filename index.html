@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+
 <meta charset="UTF-8">
+
+<!-- ⭐ สำคัญมาก แก้เว็บเล็กใน iPhone -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>GED Score Calculator</title>
 
 <style>
@@ -10,15 +15,17 @@ body{
 margin:0;
 font-family:Arial;
 background:#fff9fc;
-padding-bottom:95px; /* กันปุ่มล่างบัง */
+padding-bottom:90px;
 }
 
+/* กล่องหลัก */
 .container{
 max-width:420px;
 margin:auto;
 padding:40px 20px;
 }
 
+/* ช่องกรอก */
 input{
 width:100%;
 padding:12px;
@@ -34,6 +41,7 @@ outline:none;
 background:#fff0f7;
 }
 
+/* ปุ่ม */
 button{
 display:block;
 margin:15px auto;
@@ -53,6 +61,7 @@ background:#eaffb8;
 transform:scale(0.96);
 }
 
+/* ตาราง */
 table{
 width:100%;
 border-collapse:collapse;
@@ -83,16 +92,14 @@ border-bottom:none;
 margin-top:30px;
 }
 
-/* ===== CONTACT BAR ===== */
-
+/* ⭐ CONTACT BAR (ไม่มีพื้นขาวแล้ว) */
 .contact-bar{
 position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:#ffffff;
-padding:14px;
-box-shadow:0 -4px 12px rgba(0,0,0,0.08);
+bottom:15px;
+left:50%;
+transform:translateX(-50%);
+width:90%;
+max-width:420px;
 z-index:999;
 }
 
@@ -106,15 +113,10 @@ font-size:20px;
 font-weight:bold;
 border-radius:14px;
 text-decoration:none;
-letter-spacing:1px;
-transition:0.25s;
-}
-
-.contact-bar a:hover{
-background:#eaffb8;
 }
 
 .contact-bar a:active{
+background:#eaffb8;
 transform:scale(0.96);
 }
 
@@ -149,7 +151,7 @@ transform:scale(0.96);
 
 </div>
 
-<!-- ⭐ CONTACT ME -->
+<!-- ⭐ CONTACT BUTTON -->
 <div class="contact-bar">
 <a href="https://lin.ee/ELHcIH2" target="_blank">
 💬 CONTACT ME
@@ -166,7 +168,6 @@ let gpa=((score-50)/150)*4;
 return Math.max(0,Math.min(4,gpa));
 }
 
-/* สลับ decimal */
 function toggleDecimal(){
 currentDecimal = currentDecimal===3 ? 2 : 3;
 renderTable();
@@ -230,7 +231,6 @@ ${currentDecimal===3
 document.getElementById("res").innerHTML=html;
 }
 
-/* calculate */
 function calculateGPA(){
 
 const ids=["math","rla","soc","sci"];
