@@ -1,256 +1,286 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GED Score Calculator</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary-pink: #eea9fc;
+            --secondary-pink: #ff9ccc;
+            --bg-color: #fff9fc;
+            --btn-green: #f2ffd9;
+            --text-green: #a9e400;
+        }
 
-<title>GED Score Calculator</title>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            padding-bottom: 100px;
+            display: flex;
+            justify-content: center;
+        }
 
-<style>
+        .container {
+            width: 90%;
+            max-width: 500px; /* ขยายให้กว้างขึ้นเล็กน้อยสำหรับ Tablet/PC */
+            margin: 20px auto;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 182, 218, 0.2);
+        }
 
-body{
-margin:0;
-font-family:Arial;
-background:#fff9fc;
-padding-bottom:90px;
-}
+        h2 {
+            color: var(--primary-pink);
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
 
-.container{
-max-width:420px;
-margin:auto;
-padding:40px 20px;
-}
+        label {
+            display: block;
+            color: var(--secondary-pink);
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
 
-/* ⭐ FIX iPhone ตกขอบ */
-input{
-width:100%;
-padding:12px;
-margin:10px 0;
-background:#fffefa;
-border:1px solid #ffe6f2;
-border-radius:8px;
-font-size:16px;
-box-sizing:border-box;
-}
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #fffefa;
+            border: 2px solid #ffe6f2;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
 
-input:focus{
-outline:none;
-background:#fff0f7;
-}
+        input:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+            background: #fff0f7;
+        }
 
-/* ===== BUTTON STYLE (calculate + convert ใช้อันเดียวกัน) ===== */
-button{
-display:block;
-margin:15px auto;
-padding:14px 40px;
-background:#f2ffd9;
-color:#a9e400;
-border:none;
-border-radius:12px;
-font-size:22px;
-font-weight:bold;
-cursor:pointer;
--webkit-tap-highlight-color: transparent;
-box-sizing:border-box;
-}
+        button {
+            display: block;
+            width: 100%; /* ให้ปุ่มกว้างเต็มในมือถือ */
+            margin: 20px auto;
+            padding: 15px;
+            background: var(--btn-green);
+            color: var(--text-green);
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-button:active{
-background:#eaffb8;
-transform:scale(0.96);
-}
+        button:active {
+            background: #eaffb8;
+            transform: scale(0.98);
+        }
 
-/* ตาราง */
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:15px;
-background:#ffffff;
-border-radius:10px;
-overflow:hidden;
-}
+        /* ตารางแบบ Responsive */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
 
-th,td{
-padding:10px;
-text-align:center;
-border-bottom:1px solid #ffb6da;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
-th{
-background:#fff0f7;
-color:#b388ff;
-}
+        th, td {
+            padding: 12px 8px;
+            text-align: center;
+            border-bottom: 1px solid #ffb6da;
+        }
 
-.total-row td{
-font-weight:bold;
-color:#65d0ff;
-border-bottom:none;
-}
+        th {
+            background: #fff0f7;
+            color: #b388ff;
+        }
 
-.result{
-margin-top:30px;
-}
+        .total-row td {
+            font-weight: bold;
+            color: #65d0ff;
+            background: #f0faff;
+        }
 
-/* ===== CONTACT BUTTON ===== */
-.contact-bar{
-position:fixed;
-bottom:15px;
-left:50%;
-transform:translateX(-50%);
-width:auto;
-max-width:420px;
-z-index:999;
-}
+        /* ===== CONTACT BUTTON (Fixed "CONTACT ME" issue) ===== */
+        .contact-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            width: 90%; /* ยืดหยุ่นตามหน้าจอ */
+            display: flex;
+            justify-content: center;
+        }
 
-.contact-bar a{
-display:inline-block;
-white-space:nowrap; /* ⭐ ไม่ขึ้นบรรทัดใหม่ */
-padding:14px 40px;
-background:#fffea9;
-color:#3c3c3c;
-font-size:22px;
-font-weight:bold;
-border-radius:12px;
-text-decoration:none;
-}
+        .contact-bar a {
+            display: inline-block;
+            white-space: nowrap; /* บังคับให้อยู่บรรทัดเดียวแน่นอน */
+            padding: 14px 35px;
+            background: #fffea9;
+            color: #3c3c3c;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px; /* ทำเป็นทรงมนสวยๆ */
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            text-align: center;
+            min-width: 180px; /* ป้องกันปุ่มหดสั้นเกินไป */
+        }
 
-.contact-bar a:active{
-transform:scale(0.96);
-}
+        .contact-bar a:hover {
+            background: #fffb7d;
+        }
 
-</style>
+        .contact-bar a:active {
+            transform: scale(0.95);
+        }
+
+        /* สำหรับหน้าจอเล็กพิเศษ */
+        @media (max-width: 360px) {
+            h2 { font-size: 1.4rem; }
+            .contact-bar a { font-size: 1rem; padding: 12px 20px; }
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="container">
+    <h2>｡𖦹°⋆ GED Score to GPA Calculator ₊˚𝜗𝜚˚⋆</h2>
 
-<h2 style="color:#eea9fc;font-size:34px;text-align:center;">
-｡𖦹°⋆ GED score to GPA & GPAX calculator ₊˚𝜗𝜚˚⋆
-</h2>
+    <label>Mathematical Reasoning:</label>
+    <input type="number" id="math" placeholder="0-200" min="0" max="200">
 
-<label style="color:#ff9ccc;">Mathematical Reasoning:</label>
-<input type="number" id="math" placeholder="0-200">
+    <label>Language Arts (RLA):</label>
+    <input type="number" id="rla" placeholder="0-200" min="0" max="200">
 
-<label style="color:#ff9ccc;">Reasoning Through Language Arts (RLA):</label>
-<input type="number" id="rla" placeholder="0-200">
+    <label>Social Studies:</label>
+    <input type="number" id="soc" placeholder="0-200" min="0" max="200">
 
-<label style="color:#ff9ccc;">Social Studies:</label>
-<input type="number" id="soc" placeholder="0-200">
+    <label>Science:</label>
+    <input type="number" id="sci" placeholder="0-200" min="0" max="200">
 
-<label style="color:#ff9ccc;">Science:</label>
-<input type="number" id="sci" placeholder="0-200">
+    <button onclick="calculateGPA()">｡⋆𐙚⋆ Calculate ₊⊹♡ᵎᵎ</button>
 
-<button onclick="calculateGPA()">
-｡⋆𐙚⋆ calculate ₊⊹♡ᵎᵎ
-</button>
-
-<div class="result" id="res"></div>
-
+    <div class="result" id="res"></div>
 </div>
 
-<!-- CONTACT -->
 <div class="contact-bar">
-<a href="https://lin.ee/ELHcIH2" target="_blank">
-CONTACT ME
-</a>
+    <a href="https://lin.ee/ELHcIH2" target="_blank">
+        CONTACT ME
+    </a>
 </div>
 
 <script>
+    let savedScores = [];
+    let currentDecimal = 3;
 
-let savedScores=[];
-let currentDecimal=3;
+    function scoreToGPA(score) {
+        let gpa = ((score - 50) / 150) * 4;
+        return Math.max(0, Math.min(4, gpa));
+    }
 
-function scoreToGPA(score){
-let gpa=((score-50)/150)*4;
-return Math.max(0,Math.min(4,gpa));
-}
+    function toggleDecimal() {
+        currentDecimal = currentDecimal === 3 ? 2 : 3;
+        renderTable();
+    }
 
-function toggleDecimal(){
-currentDecimal = currentDecimal===3 ? 2 : 3;
-renderTable();
-}
+    function renderTable() {
+        const subjects = [
+            {name: "Math"},
+            {name: "RLA"},
+            {name: "Social Studies"},
+            {name: "Science"}
+        ];
 
-function renderTable(){
+        let totalScore = 0;
+        let totalGPA = 0;
 
-const subjects=[
-{name:"Math"},
-{name:"RLA"},
-{name:"Social Studies"},
-{name:"Science"}
-];
+        let html = `
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th>Subject</th>
+                    <th>Score</th>
+                    <th>GPA</th>
+                </tr>
+        `;
 
-let totalScore=0;
-let totalGPA=0;
+        subjects.forEach((sub, i) => {
+            const score = savedScores[i];
+            const gpa = scoreToGPA(score);
+            totalScore += score;
+            totalGPA += gpa;
 
-let html=`
-<table>
-<tr>
-<th>Subject</th>
-<th>Score</th>
-<th>GPA</th>
-</tr>
-`;
+            html += `
+                <tr>
+                    <td>${sub.name}</td>
+                    <td>${score}</td>
+                    <td>${gpa.toFixed(currentDecimal)}</td>
+                </tr>
+            `;
+        });
 
-subjects.forEach((sub,i)=>{
+        const gpax = totalGPA / 4;
 
-const score=savedScores[i];
-const gpa=scoreToGPA(score);
+        html += `
+                <tr class="total-row">
+                    <td>TOTAL</td>
+                    <td>${totalScore}</td>
+                    <td>GPAX ${gpax.toFixed(currentDecimal)}</td>
+                </tr>
+            </table>
+        </div>
+        <button onclick="toggleDecimal()">
+            ${currentDecimal === 3 ? "Convert to 2 Decimal Places" : "Convert to 3 Decimal Places"}
+        </button>
+        `;
 
-totalScore+=score;
-totalGPA+=gpa;
+        document.getElementById("res").innerHTML = html;
+        
+        // เลื่อนหน้าจอลงมาให้เห็นผลลัพธ์ในมือถือ
+        document.getElementById("res").scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
 
-html+=`
-<tr>
-<td>${sub.name}</td>
-<td>${score}</td>
-<td>${gpa.toFixed(currentDecimal)}</td>
-</tr>
-`;
-});
+    function calculateGPA() {
+        const ids = ["math", "rla", "soc", "sci"];
+        savedScores = [];
 
-const gpax=totalGPA/4;
+        for (let id of ids) {
+            const val = document.getElementById(id).value;
+            const score = parseFloat(val);
 
-html+=`
-<tr class="total-row">
-<td>TOTAL</td>
-<td>${totalScore}</td>
-<td>GPAX ${gpax.toFixed(currentDecimal)}</td>
-</tr>
-</table>
+            if (val === "" || isNaN(score) || score < 0 || score > 200) {
+                document.getElementById("res").innerHTML =
+                "<div style='color:#ff7ab6; font-weight:bold; text-align:center; margin-top:20px;'> Please enter valid scores for all subjects</div>";
+                return;
+            }
+            savedScores.push(score);
+        }
 
-<button onclick="toggleDecimal()">
-${currentDecimal===3
-? "Convert to 2 Decimal Places"
-: "Convert to 3 Decimal Places"}
-</button>
-`;
-
-document.getElementById("res").innerHTML=html;
-}
-
-function calculateGPA(){
-
-const ids=["math","rla","soc","sci"];
-savedScores=[];
-
-for(let id of ids){
-
-const score=parseFloat(document.getElementById(id).value);
-
-if(isNaN(score)||score<0||score>200){
-document.getElementById("res").innerHTML=
-"<span style='color:#ff7ab6;font-weight:bold;'>Please enter valid scores for all four subjects</span>";
-return;
-}
-
-savedScores.push(score);
-}
-
-currentDecimal=3;
-renderTable();
-}
-
+        currentDecimal = 3;
+        renderTable();
+    }
 </script>
 
 </body>
