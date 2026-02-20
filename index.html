@@ -39,6 +39,7 @@ display:block;
 color:#ff9ccc;
 font-weight:bold;
 margin-top:15px;
+text-align:center; /* ชื่อวิชาเหนือช่องกรอกอยู่ตรงกลาง */
 }
 
 input{
@@ -50,6 +51,7 @@ border:1px solid #ffe6f2;
 border-radius:10px;
 font-size:16px;
 box-sizing:border-box;
+text-align: left; /* ตัวเลขชิดซ้าย */
 }
 
 input:focus{
@@ -141,7 +143,6 @@ text-decoration:none;
 </div>
 
 <script>
-
 let savedScores=[];
 let currentDecimal=3;
 
@@ -153,29 +154,20 @@ return gpa;
 }
 
 function calculateGPA(){
-
 savedScores=[];
-
 const math=parseFloat(document.getElementById("math").value);
 const rla=parseFloat(document.getElementById("rla").value);
 const soc=parseFloat(document.getElementById("soc").value);
 const sci=parseFloat(document.getElementById("sci").value);
 
-if(
-isNaN(math)||isNaN(rla)||isNaN(soc)||isNaN(sci)||
-math<0||math>200||
-rla<0||rla>200||
-soc<0||soc>200||
-sci<0||sci>200
-){
-document.getElementById("res").innerHTML=
-"<b style='color:#ff7ab6'>Please enter valid scores for all four subjects</b>";
+if(isNaN(math)||isNaN(rla)||isNaN(soc)||isNaN(sci)||
+math<0||math>200||rla<0||rla>200||soc<0||soc>200||sci<0||sci>200){
+document.getElementById("res").innerHTML="<b style='color:#ff7ab6'>Please enter valid scores for all four subjects</b>";
 return;
 }
 
 savedScores=[math,rla,soc,sci];
 currentDecimal=3;
-
 renderTable();
 }
 
@@ -185,49 +177,25 @@ renderTable();
 }
 
 function renderTable(){
-
+// แก้ไขเฉพาะชื่อรายวิชาในตารางหน้าคำนวณเกรดที่นี่
 const names=["Math","RLA","Social","Science"];
-
 let totalScore=0;
 let totalGPA=0;
 
-let html="<table>";
-html+="<tr><th>Subject</th><th>Score</th><th>GPA</th></tr>";
-
+let html="<table><tr><th>Subject</th><th>Score</th><th>GPA</th></tr>";
 for(let i=0;i<4;i++){
-
 let score=savedScores[i];
 let gpa=scoreToGPA(score);
-
 totalScore+=score;
 totalGPA+=gpa;
-
-html+="<tr>";
-html+="<td>"+names[i]+"</td>";
-html+="<td>"+score+"</td>";
-html+="<td>"+gpa.toFixed(currentDecimal)+"</td>";
-html+="</tr>";
+html+="<tr><td>"+names[i]+"</td><td>"+score+"</td><td>"+gpa.toFixed(currentDecimal)+"</td></tr>";
 }
 
 let gpax=totalGPA/4;
-
-html+="<tr class='total-row'>";
-html+="<td>TOTAL</td>";
-html+="<td>"+totalScore+"</td>";
-html+="<td>GPAX "+gpax.toFixed(currentDecimal)+"</td>";
-html+="</tr>";
-
-html+="</table>";
-
-html+="<button onclick='toggleDecimal()'>";
-html+=(currentDecimal===3)
-?"Convert to 2 Decimal Places"
-:"Convert to 3 Decimal Places";
-html+="</button>";
-
+html+="<tr class='total-row'><td>TOTAL</td><td>"+totalScore+"</td><td>GPAX "+gpax.toFixed(currentDecimal)+"</td></tr></table>";
+html+="<button onclick='toggleDecimal()'>"+(currentDecimal===3?"Convert to 2 Decimal Places":"Convert to 3 Decimal Places")+"</button>";
 document.getElementById("res").innerHTML=html;
 }
-
 </script>
 
 </body>
